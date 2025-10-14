@@ -184,32 +184,47 @@ def clean_statement(df, quarter):
 
 def extract_net_payment_from_by_song(file_path):
     try:
+        print(f"\n📂 Leyendo archivo: {file_path}")
         df = pd.read_excel(file_path, sheet_name="By Song", skiprows=8, dtype=str)
         df = df.fillna('')  # Evita NaNs
+
+        print("📊 Primeras filas del DataFrame:")
+        print(df.head())
 
         for i in range(len(df)):
             for j in range(len(df.columns)):
                 cell_value = str(df.iloc[i, j]).strip().lower()
                 if "net payment" in cell_value:
-                    
+                    print(f"🔍 Encontrado 'net payment' en fila {i}, columna {j}: {df.iloc[i, j]}")
+
                     if j + 1 < len(df.columns):
                         value = df.iloc[i, j + 1]
-                    
+                        print(f"➡️ Valor a la derecha: {value}")
                     elif j > 0:
                         value = df.iloc[i, j - 1]
-                    
+                        print(f"⬅️ Valor a la izquierda: {value}")
                     else:
                         value = ""
+                        print("⚠️ No hay valor adyacente")
 
                     value = str(value).replace(",", "").replace("$", "").strip()
+                    print(f"💰 Valor limpio: {value}")
+
                     try:
-                        return round(float(value), 2)
-                    except:
+                        result = round(float(value), 2)
+                        print(f"✅ Resultado final: {result}")
+                        return result
+                    except Exception as e:
+                        print(f"❌ Error al convertir valor: {e}")
                         return 0.0
+
+        print("🚫 No se encontró 'net payment' en ninguna celda")
         return 0.0
+
     except Exception as e:
-        print(f"Error al extraer 'Net Payment' desde 'By Song': {e}")
+        print(f"🛑 Error al extraer 'Net Payment' desde 'By Song': {e}")
         return 0.0
+
 
 
 def load_excel_data(artist, quarter, year):
@@ -265,6 +280,8 @@ def load_excel_data(artist, quarter, year):
 
     sheets_data["total_royalties"] = extract_net_payment_from_by_song(file_path)
     
+                
+
     return sheets_data
 
 
