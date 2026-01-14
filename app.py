@@ -72,6 +72,7 @@ USERS = {
     "DavidLoya": {"password": "David676A", "artist": "David Loya"},
     "JuanLugo": {"password": "Juan442A", "artist": "Juan Lugo"},
     "MecsaSosa": {"password": "Mecsa212A", "artist": "Mecsa Sosa"},
+    "MisaelHidalgo": {"password": "MisaelA999", "artist": "Misael Hidalgo"},
     "AdminUser": {"password": "Admin123", "is_admin": True}
 }
 
